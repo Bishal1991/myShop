@@ -4,7 +4,7 @@ A modern, multi-screen e-commerce mobile application built with Flutter as part 
 
 ## Student Information
 - **Project Name:** MyShop
-- **Course:** Mobile Application Development
+- **Course:** Mobile Application Development – Flutter
 - **Student Name:** Bishal Khatri
 - **Student ID:** 2510412191
 
@@ -22,6 +22,19 @@ MyShop is a feature-rich mini e-commerce application that allows users to browse
 - **Product Details:** Detailed view showcasing images, prices, ratings with stars, and descriptions.
 - **Shopping Cart:** Add items to cart, view cart list, and remove items.
 - **Navigation & Data Passing:** Seamless navigation across Home, Category, Product Detail, and Cart screens.
+
+---
+
+## Screenshots
+
+### Home Page
+![Home Page](Screenshots/homePage.png)
+
+### Category Page
+![Category Page](Screenshots/categoryPage.png)
+
+### Product Detail Page
+![Product Detail Page](Screenshots/productDetailPage.png)
 
 ---
 
