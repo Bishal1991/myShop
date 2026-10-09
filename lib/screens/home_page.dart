@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:myshop/data/products.dart';
 import 'package:myshop/screens/cart_page.dart';
+import 'package:myshop/screens/category_page.dart';
 import 'package:myshop/screens/product_detail_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,19 +14,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String? selectedCategory = 'All';
-  late final CarouselController controller;
-
-  @override
-  void initState(){
-    super.initState();
-    controller = CarouselController();
-  }
-
-  @override
-  void dispose(){
-    controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,24 +38,15 @@ class _HomePageState extends State<HomePage> {
           },
         ),
         actions: <Widget>[
-          Container(
-            margin: EdgeInsets.only(top: 5, left: 5, bottom: 5, right: 15),
-            width: 300,
-            child: SearchBar(
-              leading: Icon(Icons.search),
-              trailing: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.shopping_cart),
-                  onPressed: (){
-                    Navigator.push(context,
-                        MaterialPageRoute(
-                            builder: (context) => CartPage()
-                        )
-                    );
-                  },
-                )
-              ],
-            ),
+          IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CartPage()),
+              );
+            },
+            icon: Icon(Icons.shopping_cart),
           ),
         ],
       ),
@@ -81,19 +61,28 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
-          SizedBox(
-            height: 150,
-            child: CarouselView.weighted(
-              scrollDirection: Axis.horizontal,
-              controller: controller,
-              flexWeights: [1, 7, 1],
-              children: allProducts.map((product) {
-                return ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.network(product.imageUrl, fit: BoxFit.cover),
-                );
-              }).toList(),
+          CarouselSlider(
+            options: CarouselOptions(
+              height: 150.0,
+              autoPlay: true,
+              autoPlayInterval: Duration(seconds: 2),
+              autoPlayCurve: Curves.fastOutSlowIn,
+              enlargeCenterPage: true,
             ),
+            items: allProducts.map((product) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.network(
+                      product.imageUrl,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    ),
+                  );
+                },
+              );
+            }).toList(),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -109,10 +98,17 @@ class _HomePageState extends State<HomePage> {
                   items: Products.category,
                   hint: Text("Select Category"),
                   onChanged: (String? value) {
-                    setState(() {
-                      selectedCategory = value;
-                    });
-                    print(value);
+                    if (value != null) {
+                      setState(() {
+                        selectedCategory = value;
+                      });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CategoryPage(categoryName: value),
+                        ),
+                      );
+                    }
                   },
                 ),
               ],
@@ -131,11 +127,13 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 final product = filteredProducts[index];
                 return InkWell(
-                  onTap: (){
-                    Navigator.push(context,
-                        MaterialPageRoute(
-                            builder: (context)=> ProductDetailPage(product: product,)
-                        )
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ProductDetailPage(product: product),
+                      ),
                     );
                   },
                   child: Card(
