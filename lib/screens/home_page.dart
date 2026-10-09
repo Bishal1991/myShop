@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
-          Container(
+          SizedBox(
             height: 150,
             child: CarouselView.weighted(
               scrollDirection: Axis.horizontal,
