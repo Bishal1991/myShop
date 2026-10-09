@@ -68,6 +68,7 @@ class _HomePageState extends State<HomePage> {
               autoPlayInterval: Duration(seconds: 2),
               autoPlayCurve: Curves.fastOutSlowIn,
               enlargeCenterPage: true,
+              enlargeFactor: 0.3,
             ),
             items: allProducts.map((product) {
               return Builder(
